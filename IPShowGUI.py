@@ -1,29 +1,28 @@
 import requests
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 
 def fetch_ip_info():
     url = "https://ipapi.co/json/"
     
     try:
-        # Fetch the IP information from ipapi.co
         response = requests.get(url)
         response.raise_for_status()
         return response.json()
-    
     except requests.exceptions.RequestException as e:
         messagebox.showerror("Error", f"Error fetching IP information: {e}")
+        return None
+    except Exception as e:
+        messagebox.showerror("Unexpected Error", f"An unexpected error occurred: {e}")
         return None
 
 def display_ip_info():
     ip_info = fetch_ip_info()
     
     if ip_info:
-        # Clear previous data
         for widget in info_frame.winfo_children():
             widget.destroy()
         
-        # Display relevant information in a table format
         fields = [
             ("IP Address", ip_info.get('ip')),
             ("City", ip_info.get('city')),
@@ -37,8 +36,8 @@ def display_ip_info():
         ]
         
         # Table headers
-        tk.Label(info_frame, text="Field", font=('Arial', 12, 'bold'), width=20, anchor="w").grid(row=0, column=0, padx=10, pady=5)
-        tk.Label(info_frame, text="Information", font=('Arial', 12, 'bold'), width=40, anchor="w").grid(row=0, column=1, padx=10, pady=5)
+        tk.Label(info_frame, text="Field", font=('Arial', 11, 'bold'), width=20, anchor="w").grid(row=0, column=0, padx=10, pady=5)
+        tk.Label(info_frame, text="Information", font=('Arial', 11, 'bold'), width=30, anchor="w").grid(row=0, column=1, padx=10, pady=5)
 
         # Add the IP information to the GUI in a table format
         for i, (field, value) in enumerate(fields, start=1):
@@ -48,7 +47,8 @@ def display_ip_info():
 # Create the main window
 root = tk.Tk()
 root.title("IP Address Information")
-root.geometry("500x400")
+root.geometry("500x400")  # Set the window size to 500x400
+root.resizable(False, False)  # Disable window resizing
 
 # Create a frame to hold the IP information table
 info_frame = tk.Frame(root)
