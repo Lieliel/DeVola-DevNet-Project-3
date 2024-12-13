@@ -34,16 +34,9 @@ jobs:
       run: |
         python -m unittest discover -s . -p "test_*.py"
 
-    - name: Notify GitHub of job status
-      if: always()
-      uses: actions/github-script@v5
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v3
       with:
-        script: |
-          github.repos.createCommitStatus({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            sha: github.context.sha,
-            state: 'success',
-            description: 'Test completed successfully',
-            context: 'test'
-          })
+        name: test-results
+        path: test-results.xml
+        if: always()
