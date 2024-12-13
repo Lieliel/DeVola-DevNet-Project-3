@@ -83,7 +83,7 @@ def run_gui():
     # Status bar section
     status_bar = ttk.Frame(root, padding=(10, 5))
     status_bar.pack(fill="x")
-    status_label = ttk.Label(status_bar, text="", font='Arial 10 italic', anchor="center")
+    status_label = ttk.Label(status_bar, text="", font='Arial 12 italic', anchor="center")
     status_label.pack()
 
     # Fetch and display information
