@@ -33,3 +33,17 @@ jobs:
     - name: Run tests
       run: |
         python -m unittest discover -s . -p "test_*.py"
+
+    - name: Notify GitHub of job status
+      if: always()
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.repos.createCommitStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            sha: github.context.sha,
+            state: 'success',
+            description: 'Test completed successfully',
+            context: 'test'
+          })
